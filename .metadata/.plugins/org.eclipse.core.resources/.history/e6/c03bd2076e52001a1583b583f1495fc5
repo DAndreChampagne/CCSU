@@ -1,0 +1,78 @@
+package cs501;
+
+public class HW3 {
+
+	class Node<T> {
+		public T data;
+		public Node<T> next;
+	}
+	
+	
+	interface ILinkedList<T> {
+		interface ITraverseFunction<T> {
+			void Process(Node<T> node);
+		}
+		
+		void InsertFirst(Node<T> node);
+		Node<T> DeleteFirst();
+		int Size();
+		T Value();
+		boolean Empty();
+		Node<T> Search(T key);
+		void Traverse(ITraverseFunction<T> traverseFunction);
+	}
+	
+	
+	class LinkedList<T> implements ILinkedList<T> {
+		private Node<T> head = null;
+		private int size = 0;
+		
+		@Override
+		public void InsertFirst(Node<T> node) {
+			if (head == null) {
+				head = node;
+			} else {
+				head.next = node;
+				head = node;
+			}
+			
+			++size;
+		}
+		
+		@Override
+		public Node<T> DeleteFirst() {
+			Node<T> node = head;
+			head = head.next;
+			--size;
+			
+			return node;
+		}
+		
+		@Override
+		public final int Size() {
+			return size;
+		}
+		
+		@Override
+		public boolean Empty() {
+			return size == 0;
+		}
+		
+		@Override
+		public Node<T> Search(T key) {
+			for (Node<T> node = head; node != null; node = node.next) {
+				if (node.)
+			}
+			
+			return null;
+		}
+		
+		@Override
+		public void Traverse(ITraverseFunction<T> traverseFunction) {
+			for (Node<T> node = head; node != null; node = node.next) {
+				traverseFunction.Process(node);
+			}
+		}
+	}
+	
+}

@@ -1,0 +1,20 @@
+package cs501;
+
+public class HW3 {
+
+	class Node<T> {
+		public T data;
+		public Node<T> next;
+	}
+	
+	interface ILinkedList<T> {
+		void InsertFirst(Node<T> node);
+		Node<T> DeleteFirst();
+	}
+	
+	class LinkedList<T> {
+		Node<T> head = null;
+		int size = 0;
+	}
+	
+}

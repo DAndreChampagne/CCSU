@@ -1,0 +1,15 @@
+package cs501;
+
+public class HW3 {
+
+	class Node<T> {
+		T data;
+		Node<T> next;
+	}
+	
+	class LinkedList<T> {
+		Node<T> head = null;
+		int size = 0;
+	}
+	
+}

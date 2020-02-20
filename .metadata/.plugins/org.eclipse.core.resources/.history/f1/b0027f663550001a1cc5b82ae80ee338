@@ -1,0 +1,79 @@
+package cs506.HW2;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.Iterator;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+public class HW2_PrimeNumbers_Tests {
+
+	private static PrimeNumbers primes;
+	
+	
+	@BeforeEach
+	public void BeforeEach() {
+		primes = new  PrimeNumbers();
+	}
+	
+	@Test
+	public void does_not_reach_the_fault() {
+		String expected = "[]";
+		String actual;
+		
+		// By passing 0 to the function, an empty list is returned. The fault is within
+		// the while loop, and passing n=0 makes sure that the fault is never reached.
+		primes.computePrimes(0);
+		actual = primes.toString();
+		
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void reaches_the_fault_but_does_not_infect() {
+		String expected = "[2, 3, 5, 7]";
+		String actual;
+		
+		// By passing n=4 to computePrimes, the line with the fault will execute, however
+		// the first 4 primes are 2,3,5,7. The first prime ending in 9 is 19, which is the 8th
+		// prime number.
+		primes.computePrimes(4);
+		actual = primes.toString();
+		
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void infects_the_state_but_does_not_propagate() {
+		
+	}
+	
+	@Test
+	public void propagates_but_does_not_reveal() {
+		int expected = 8;
+		int actual = 0;
+		Iterator<Integer> iterator;
+		
+		primes.computePrimes(8);
+		
+		// We're going to count the number of items in the output array, rather than
+		// checking to see if the right prime numbers were calculated. This way, the fault
+		// propogates, but since we're testing for the wrong thing, the failure is not revealed.
+		for (iterator = primes.iterator(); iterator.hasNext(); ++actual, iterator.next());
+		
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void reveals_the_fault() {
+		String expected = "[2, 3, 5, 7, 11, 13, 17, 19]";
+		String actual;
+		
+		primes.computePrimes(8);
+		actual = primes.toString();
+		
+		// Here we will finally see that 19 is not included in the list of prime numbers,
+		// which is the failure of the algorithm.
+		assertEquals(expected, actual);
+	}
+	
+}

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="cs501.HW1.ISortingAlgorithm"/>
+<fullyQualifiedTypeName name="java.nio.file.Files"/>
+<fullyQualifiedTypeName name="java.nio.file.Paths"/>
+<fullyQualifiedTypeName name="java.io.PrintWriter"/>
+<fullyQualifiedTypeName name="java.util.Collections"/>
+<fullyQualifiedTypeName name="java.awt.List"/>
+<fullyQualifiedTypeName name="org.junit.runner.RunWith"/>
+<fullyQualifiedTypeName name="org.junit.jupiter.params.ParameterizedTest"/>
+<fullyQualifiedTypeName name="org.junit.jupiter.params.provider.ValueSource"/>
+<fullyQualifiedTypeName name="java.util.stream.Stream"/>
+<fullyQualifiedTypeName name="org.junit.jupiter.params.provider.Arguments"/>
+<fullyQualifiedTypeName name="org.junit.jupiter.params.provider.MethodSource"/>
+<fullyQualifiedTypeName name="org.junit.jupiter.params.provider.CsvSource"/>
+<fullyQualifiedTypeName name="cs506.Calc"/>
+<fullyQualifiedTypeName name="org.junit.runners.Parameterized.Parameters"/>
+<fullyQualifiedTypeName name="cs506.HW1.HW1"/>
+<fullyQualifiedTypeName name="java.util.Random"/>
+<fullyQualifiedTypeName name="tests.IntArrayConverter"/>
+<fullyQualifiedTypeName name="org.junit.jupiter.api.Assertions"/>
+<fullyQualifiedTypeName name="java.util.Iterator"/>
+<fullyQualifiedTypeName name="org.junit.jupiter.params.converter.SimpleArgumentConverter"/>
+<fullyQualifiedTypeName name="org.junit.jupiter.params.converter.ArgumentConversionException"/>
+<fullyQualifiedTypeName name="java.util.Arrays"/>
+<fullyQualifiedTypeName name="org.junit.jupiter.params.converter.ConvertWith"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="cs506.HW2.Point"/>
+<fullyQualifiedTypeName name="java.util.HashSet"/>
+<fullyQualifiedTypeName name="java.util.Set"/>
+<fullyQualifiedTypeName name="java.lang.Exception"/>
+<fullyQualifiedTypeName name="cs501.HW3.LinkedList"/>
+</qualifiedTypeNameHistroy>

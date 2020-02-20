@@ -1,0 +1,7 @@
+package cs501.HW3;
+
+public class HW3_main {
+
+	LinkedList<int> list = new LinkedList<>();
+	
+}

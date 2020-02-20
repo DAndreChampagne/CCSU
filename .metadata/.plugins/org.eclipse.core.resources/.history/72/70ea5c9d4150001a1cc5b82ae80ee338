@@ -1,0 +1,40 @@
+package cs506.HW2;
+
+import java.util.Random;
+
+// Introduction to Software Testing
+// Authors: Paul Ammann & Jeff Offutt
+// Chapter 1; page ??
+// See PointTest.java for JUnit tests
+// See also ColorPoint.java
+
+
+public class Point
+{
+    private int x;
+    private int y;
+
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+//    @Override
+//	public int hashCode() {
+//    	int hash = 7;
+//    	
+//    	hash *= 31 * x;
+//    	hash *= 31 * y;
+//    	
+//    	return hash;
+//	}
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Point))
+            return false;
+
+        Point p = (Point) obj;
+        return (p.x == this.x) && (p.y == this.y);
+    }
+}

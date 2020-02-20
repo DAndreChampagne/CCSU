@@ -1,0 +1,16 @@
+package cs506.HW2;
+
+import java.util.HashSet;
+import java.util.Set;
+
+public class HW2 {
+	public static void main(String[] args) {		
+		Set<Point> s = new HashSet<>();
+		
+		s.add(new Point(2,1));
+		s.add(new Point(2,1));
+		
+		System.out.println("set size = " + s.size());
+		
+	}
+}

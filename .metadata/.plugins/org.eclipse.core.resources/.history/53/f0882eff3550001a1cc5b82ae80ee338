@@ -1,0 +1,15 @@
+package cs506.HW2;
+
+import java.util.HashSet;
+import java.util.Set;
+
+public class HW2 {
+	public static void main(String[] args) {		
+		PrimeNumbers p = new PrimeNumbers();
+		
+		p.computePrimes(30);
+		
+		System.out.println(p.toString());
+		
+	}
+}
