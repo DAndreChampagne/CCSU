@@ -1,13 +1,16 @@
 package cs501.HW3;
 
+
 class Node<T> {
 	public T value;
 	public Node<T> next;
 }
 
+
 interface ITraverseFunction<T> {
 	void Process(Node<T> node);
 }
+
 
 interface ILinkedList<T> {
 	Node<T> InsertFirst(Node<T> node);
