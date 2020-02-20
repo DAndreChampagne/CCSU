@@ -10,4 +10,5 @@ public class HW3_main {
 		ILinkedList<Integer> list = new LinkedList<>();
 		
 	}
+	
 }
