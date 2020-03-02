@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="910f7a52-17d2-4d6b-a53a-f22e03afd920" name="Default Changelist" comment="" />
+    <list default="true" id="910f7a52-17d2-4d6b-a53a-f22e03afd920" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1XlqkQaGsmdXnlmXkn3FOirfLcf" />
   <component name="ProjectViewState">
@@ -16,6 +21,18 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RunManager">
+    <configuration name="Unnamed" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="code" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="PARAMETERS" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -31,10 +48,14 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="184" y="111" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1581631266527">
+    <state x="286" y="110" key="#Unnamed" timestamp="1582234888307">
       <screen x="0" y="23" width="1440" height="852" />
     </state>
-    <state x="184" y="111" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1440.852@0.23.1440.852" timestamp="1581631266527" />
+    <state x="286" y="110" key="#Unnamed/0.23.1440.852@0.23.1440.852" timestamp="1582234888307" />
+    <state x="184" y="111" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1582234880957">
+      <screen x="0" y="23" width="1440" height="852" />
+    </state>
+    <state x="184" y="111" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1440.852@0.23.1440.852" timestamp="1582234880957" />
     <state x="569" y="345" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1581631213669">
       <screen x="0" y="23" width="1440" height="852" />
     </state>

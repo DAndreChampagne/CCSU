@@ -455,6 +455,16 @@ public class HW2 {
 //		System.out.println("\tafter: " + PrintArray(results.sortedData));
 		System.out.println();
 		
+		
+		results = ss.Sort(average, (h) -> h/7-1);
+		if (!IsSortedAscending(results.sortedData))
+			System.err.println("List was not sorted properly!");
+		System.out.print("h/7-1: ");
+		System.out.println(results.toString());
+//		System.out.println("\tbefore: " + PrintArray(average));
+//		System.out.println("\tafter: " + PrintArray(results.sortedData));
+		System.out.println();
+		
 	}
 	
 }

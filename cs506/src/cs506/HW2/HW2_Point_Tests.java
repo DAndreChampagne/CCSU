@@ -1,6 +1,8 @@
 package cs506.HW2;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.HashSet;
@@ -47,4 +49,29 @@ public class HW2_Point_Tests {
 		assertEquals(2, set.size(), "Unexpected set size");
 	}
 	
+	@Test
+	public void HashCodesEqual() {
+		Point p1 = new Point(1,1);
+		Point p2 = new Point(1,1);
+		
+		
+		assertAll(
+			() -> assertTrue(p1.equals(p2)),
+			() -> assertEquals(p1.hashCode(), p2.hashCode())
+		);
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
