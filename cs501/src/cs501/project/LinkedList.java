@@ -1,43 +1,83 @@
 package cs501.project;
 
+import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.util.Arrays;
+import java.util.Iterator;
 
 import cs501.project.Node;
 
-public class LinkedList<T extends Object> {
+public class LinkedList<T> {
+	
+	public class LinkedListIterator implements Iterable<T> {
+
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		@Override
+		public java.util.Iterator iterator() {
+			java.util.Iterator iterator = new java.util.Iterator() {
+				private Node<T> current = Head();
+				
+				@Override
+				public boolean hasNext() { 
+					return current != null; 
+				}
+
+				@Override
+				public T next() {
+					T value = current.GetData();
+					current = current.GetNext(); 
+					return value; 
+				}				
+			};
+			
+			return iterator;
+		}
+		
+	}
+	
 	private int _size = 0;
 	private Node<T> _head = null;
 	private Node<T> _tail = null;
+	private Class<T> _class = null;
+	
+	// there has to be a better way of creating generic arrays
+	// but I cannot for the life of me find it
+	public LinkedList(Class<T> cls) {
+		_class = cls;
+	}
 	
 	public int Size() { return _size; }
 	
 	public boolean Empty() { return Size() == 0; }
 	
-	public Node<T> Head() { return _head; }
+	protected Node<T> Head() { return _head; }
 	
-	public Node<T> Tail() { return _tail; }
+	protected Node<T> Tail() { return _tail; }
 	
-	public Node<T> Get(int index) {
+	@SuppressWarnings({ "rawtypes" })
+	public java.util.Iterator Iterator() { return new LinkedListIterator().iterator(); }
+	
+	public T Get(int index) {
 		if (index < 0 || index >= Size())
 			throw new IllegalArgumentException("invalid index: 0 <= " + index + " < " + Size());
 		
 		int i=0;
 		Node<T> p = _head;
-		for (; i != index && p.GetNext() != null; p = p.GetNext());
+		for (; i != index && p != null; p = p.GetNext(), ++i) {
+			
+		}
 		
-		return p;
+		return p.GetData();
 	}
 	
 	@SuppressWarnings("unchecked")
 	public T[] ToArray() {
-		T[] array = (T[])new Object[_size];
-		
+		T[] array = (T[])Array.newInstance(_class, _size);
 		int i=0;
+		
 		for (Node<T> p = _head; p != null; p = p.GetNext()) {
 			array[i++] = p.GetData();
 		}
-		
-		Arrays.stream(array).map(x -> (T)x).toArray();
 		
 		return array;
 	}
@@ -83,6 +123,14 @@ public class LinkedList<T extends Object> {
 		Node<T> prev = n.GetPrevious();
 		Node<T> next = n.GetNext();
 		
+		if (n.equals(_head)) {
+			_head = _head.GetNext();
+		}
+		
+		if (n.equals(_tail)) {
+			_tail = _tail.GetPrevious();
+		}
+		
 		if (prev != null)
 			prev.SetNext(next);
 		
@@ -92,8 +140,50 @@ public class LinkedList<T extends Object> {
 		n.SetNext(null);
 		n.SetPrevious(null);
 		
+		--_size;
+		
 		return this;
 	}
+	
+	public LinkedList<T> RemoveAt(int index) {
+		if (index < 0 || index >= Size())
+			throw new IllegalArgumentException("invalid index: 0 <= " + index + " < " + Size());
+		
+		int i=0;
+		Node<T> p = _head;
+		for (; i != index && p != null; p = p.GetNext(), ++i) {
+			
+		}
+		
+		return Remove(p);
+	}
+
+	@Override
+	public String toString() {
+		String result = "[";
+		Node<T> p = Head();
+		
+		if (p == null)
+			return "[]";
+		
+		while (true) {
+			result += "'" + p.GetData() + "'";
+			
+			if (p.GetNext() != null) {
+				result += ", ";
+				p = p.GetNext();
+			} else {
+				break;
+			}
+		}
+		
+		result += "]";
+		
+		return result;
+//		return super.toString();
+	}
+	
+	
 	
 	
 }
