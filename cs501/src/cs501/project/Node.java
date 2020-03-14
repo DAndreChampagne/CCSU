@@ -1,10 +1,14 @@
 package cs501.project;
 
+
+// Generic node class
 public class Node<T> {
-	private T _data;
-	private Node<T> _next;
-	private Node<T> _previous;
+	private T _data = null;
+	private Node<T> _next = null;
+	private Node<T> _previous = null;
 	
+	public Node() { }
+	public Node(T value) { _data = value; }
 	public Node(T value, Node<T> next, Node<T> previous) {
 		_data = value;
 		_next = next;
@@ -19,7 +23,7 @@ public class Node<T> {
 	
 	public Node<T> GetNext() { return _next; }
 	public Node<T> SetNext(Node<T> value) { _next = value; return this; }
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -29,9 +33,9 @@ public class Node<T> {
 		result = prime * result + ((_previous == null) ? 0 : _previous.hashCode());
 		return result;
 	}
-
-	@SuppressWarnings("unchecked")
+	
 	@Override
+	@SuppressWarnings("unchecked")
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -59,6 +63,4 @@ public class Node<T> {
 			return false;
 		return true;
 	}
-	
-	
 }

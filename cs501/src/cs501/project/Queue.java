@@ -1,6 +1,5 @@
 package cs501.project;
 
-
 public class Queue<T> {
 	private LinkedList<T> _data = null;
 	
@@ -11,7 +10,7 @@ public class Queue<T> {
 	public int Size() { return _data.Size(); }
 	
 	public boolean Empty() { return Size() == 0; }
-	public boolean Full() { return false; }
+	public boolean Full() { return false; } // always false because we're using a linkedlist implementation
 	
 	public T Front() { return _data.Head().GetData(); }
 	
@@ -25,8 +24,11 @@ public class Queue<T> {
 		return this;
 	}
 	
-	public T Dequeue() {		
+	public T Dequeue() throws NullPointerException {		
 		Node<T> p = _data.Head();
+		if (p == null)
+			throw new NullPointerException();
+		
 		T value = p.GetData();
 		
 		_data.Remove(_data.Head());
@@ -39,6 +41,8 @@ public class Queue<T> {
 		return "Queue [_data=" + _data.toString() + "]";
 	}
 	
-	
+	public String toRawString() {
+		return _data.toRawString();
+	}
 	
 }

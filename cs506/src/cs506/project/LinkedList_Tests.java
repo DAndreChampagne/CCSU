@@ -1,4 +1,4 @@
-package cs501.project;
+package cs506.project;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import cs501.project.LinkedList;
+import cs501.project.Node;
 
 
 class LinkedList_Tests {

@@ -1,14 +1,11 @@
 package cs501.project;
 
 import java.lang.reflect.Array;
-import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.Iterator;
 
-import cs501.project.Node;
-
+// Generic Linked List class
 public class LinkedList<T> {
 	
+	// iterator class
 	public class LinkedListIterator implements Iterable<T> {
 
 		@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -50,14 +47,15 @@ public class LinkedList<T> {
 	
 	public boolean Empty() { return Size() == 0; }
 	
-	protected Node<T> Head() { return _head; }
+	public Node<T> Head() { return _head; }
 	
-	protected Node<T> Tail() { return _tail; }
+	public Node<T> Tail() { return _tail; }
 	
-	@SuppressWarnings({ "rawtypes" })
+@SuppressWarnings({ "rawtypes" })
 	public java.util.Iterator Iterator() { return new LinkedListIterator().iterator(); }
 	
-	public T Get(int index) {
+	// gets node at index
+	public T Get(int index) throws IllegalArgumentException {
 		if (index < 0 || index >= Size())
 			throw new IllegalArgumentException("invalid index: 0 <= " + index + " < " + Size());
 		
@@ -180,9 +178,27 @@ public class LinkedList<T> {
 		result += "]";
 		
 		return result;
-//		return super.toString();
 	}
 	
+	public String toRawString() {
+		String result = "";
+		Node<T> p = Head();
+		
+		if (p == null)
+			return "";
+		
+		while (true) {
+			result += p.GetData() + " ";
+			
+			if (p.GetNext() != null) {
+				p = p.GetNext();
+			} else {
+				break;
+			}
+		}
+		
+		return result;
+	}
 	
 	
 	

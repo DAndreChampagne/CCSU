@@ -1,6 +1,5 @@
 package cs501.project;
 
-
 public class Stack<T> {
 	private LinkedList<T> _data = null;
 	
@@ -11,7 +10,7 @@ public class Stack<T> {
 	public int Size() { return _data.Size(); }
 	
 	public boolean Empty() { return Size() == 0; }
-	public boolean Full() { return false; }
+	public boolean Full() { return false; } // always false because of LinkedList implementation
 	
 	public T Top() { return _data.Tail().GetData(); }
 	

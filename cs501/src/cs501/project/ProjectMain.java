@@ -1,11 +1,12 @@
 package cs501.project;
 
-import cs501.project.Queue;
-
 import java.awt.Color;
 
 import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.*;
+
+import java.awt.*;
+import javax.swing.JFrame;
 
 public class ProjectMain {
 
@@ -17,6 +18,12 @@ public class ProjectMain {
 		}};
 		
 		System.out.println("c.north = " + c.north);
+		
+
+		World w = new World(20, 20);
+		
+		w.Run();
+		
 	}
 
 }
