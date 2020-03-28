@@ -12,10 +12,15 @@ public class Stack<T> {
 	public boolean Empty() { return Size() == 0; }
 	public boolean Full() { return false; } // always false because of LinkedList implementation
 	
-	public T Top() { return _data.Tail().GetData(); }
+	public T Top() throws NullPointerException {
+		if (_data.Tail() == null)
+			throw new NullPointerException();
+		
+		return _data.Tail().GetData(); 
+	}
 	
-	public Stack<T> Push(T value) { return Push(new Node<T>(value, null, null)); }
-	public Stack<T> Push(Node<T> n) {
+	public Stack<T> Push(T value) throws NullPointerException { return Push(new Node<T>(value, null, null)); }
+	public Stack<T> Push(Node<T> n) throws NullPointerException {
 		if (n == null)
 			throw new NullPointerException("n cannot be null");
 		
@@ -24,7 +29,7 @@ public class Stack<T> {
 		return this;
 	}
 	
-	public T Pop() {		
+	public T Pop() throws NullPointerException {		
 		Node<T> p = _data.Tail();
 		T value = p.GetData();
 		

@@ -12,10 +12,14 @@ public class Queue<T> {
 	public boolean Empty() { return Size() == 0; }
 	public boolean Full() { return false; } // always false because we're using a linkedlist implementation
 	
-	public T Front() { return _data.Head().GetData(); }
+	public T Front() throws NullPointerException {
+		if (_data.Head() == null)
+			throw new NullPointerException();
+		return _data.Head().GetData();
+	}
 	
-	public Queue<T> Enqueue(T value) { return Enqueue(new Node<T>(value, null, null)); }
-	public Queue<T> Enqueue(Node<T> n) {
+	public Queue<T> Enqueue(T value) throws NullPointerException { return Enqueue(new Node<T>(value, null, null)); }
+	public Queue<T> Enqueue(Node<T> n) throws NullPointerException {
 		if (n == null)
 			throw new NullPointerException("n cannot be null");
 		

@@ -51,7 +51,7 @@ public class LinkedList<T> {
 	
 	public Node<T> Tail() { return _tail; }
 	
-@SuppressWarnings({ "rawtypes" })
+	@SuppressWarnings({ "rawtypes" })
 	public java.util.Iterator Iterator() { return new LinkedListIterator().iterator(); }
 	
 	// gets node at index
@@ -60,24 +60,12 @@ public class LinkedList<T> {
 			throw new IllegalArgumentException("invalid index: 0 <= " + index + " < " + Size());
 		
 		int i=0;
-		Node<T> p = _head;
+		Node<T> p = Head();
 		for (; i != index && p != null; p = p.GetNext(), ++i) {
-			
+			// do nothing
 		}
 		
 		return p.GetData();
-	}
-	
-	@SuppressWarnings("unchecked")
-	public T[] ToArray() {
-		T[] array = (T[])Array.newInstance(_class, _size);
-		int i=0;
-		
-		for (Node<T> p = _head; p != null; p = p.GetNext()) {
-			array[i++] = p.GetData();
-		}
-		
-		return array;
 	}
 	
 	public LinkedList<T> Append(T value) throws NullPointerException { return Append(new Node<T>(value, null, null)); }
@@ -143,17 +131,29 @@ public class LinkedList<T> {
 		return this;
 	}
 	
-	public LinkedList<T> RemoveAt(int index) {
+	public LinkedList<T> RemoveAt(int index) throws IllegalArgumentException {
 		if (index < 0 || index >= Size())
 			throw new IllegalArgumentException("invalid index: 0 <= " + index + " < " + Size());
 		
 		int i=0;
-		Node<T> p = _head;
+		Node<T> p = Head();
 		for (; i != index && p != null; p = p.GetNext(), ++i) {
 			
 		}
 		
 		return Remove(p);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public T[] ToArray() {
+		T[] array = (T[])Array.newInstance(_class, _size);
+		int i=0;
+		
+		for (Node<T> p = Head(); p != null; p = p.GetNext()) {
+			array[i++] = p.GetData();
+		}
+		
+		return array;
 	}
 
 	@Override
@@ -199,7 +199,5 @@ public class LinkedList<T> {
 		
 		return result;
 	}
-	
-	
 	
 }
