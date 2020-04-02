@@ -55,21 +55,12 @@ public class World extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
-		
-//	public WorldCell[][] Data() { return _Data; }
 	
 	public int Rows() { return _Rows; }
 	public int Columns() { return _Columns; }
 		
 	public WorldCell Start() { return _Start; }
 	public WorldCell Goal() { return _Goal; }
-	
-//	public void SetStart(int row, int column) {
-//		_Data[row][column].isStart = true;
-//	}	
-//	public void SetGoal(int row, int column) {
-//		_Data[row][column].isGoal = true;
-//	}
 	
 	public void ChangeNodeColor(int row, int column, Color color) { ChangeNodeColor(_Data[row][column].GraphNode, color); }
 	public void ChangeNodeColor(org.graphstream.graph.Node n, Color color) {
@@ -81,6 +72,7 @@ public class World extends JFrame {
 			e.printStackTrace();
 		}
 	}
+	
 	
 	public LinkedList<WorldCell> ComputePath(PathAlgorithm algorithm) throws Exception {
 		switch (algorithm) {
@@ -155,8 +147,10 @@ public class World extends JFrame {
 					if (tentative_gScore < gScore[neighbor.x][neighbor.y]) {
 						neighbor.cameFrom = cameFrom[neighbor.x][neighbor.y] = current;
 						neighbor.gScore = gScore[neighbor.x][neighbor.y] = tentative_gScore;
-//						neighbor.fScore = fScore[neighbor.x][neighbor.y] = tentative_gScore + distance(neighbor, _Goal);
-						neighbor.fScore = fScore[neighbor.x][neighbor.y] = distance(neighbor, _Goal);
+						
+						// choose your own adventure
+						neighbor.fScore = fScore[neighbor.x][neighbor.y] = tentative_gScore + distance(neighbor, _Goal);
+//						neighbor.fScore = fScore[neighbor.x][neighbor.y] = distance(neighbor, _Goal);
 						
 						if (!closedSet.contains(neighbor)) {
 							openSet.add(neighbor);
@@ -308,7 +302,7 @@ public class World extends JFrame {
 		}
 	}
 
-	public void Run() {
+ 	public void Run() {
 	
 		
 		
