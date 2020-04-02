@@ -155,8 +155,8 @@ public class World extends JFrame {
 					if (tentative_gScore < gScore[neighbor.x][neighbor.y]) {
 						neighbor.cameFrom = cameFrom[neighbor.x][neighbor.y] = current;
 						neighbor.gScore = gScore[neighbor.x][neighbor.y] = tentative_gScore;
-						neighbor.fScore = fScore[neighbor.x][neighbor.y] = tentative_gScore + distance(neighbor, _Goal);
-//						neighbor.fScore = fScore[neighbor.x][neighbor.y] = distance(neighbor, _Goal);
+//						neighbor.fScore = fScore[neighbor.x][neighbor.y] = tentative_gScore + distance(neighbor, _Goal);
+						neighbor.fScore = fScore[neighbor.x][neighbor.y] = distance(neighbor, _Goal);
 						
 						if (!closedSet.contains(neighbor)) {
 							openSet.add(neighbor);
