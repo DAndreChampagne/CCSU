@@ -144,6 +144,30 @@ public class LinkedList<T> {
 		return Remove(p);
 	}
 	
+	public Node<T> Find(T item) {
+		
+		for (Node<T> n = Head(); n != null; n = n.GetNext()) {
+			T data = n.GetData();
+			if (data != null && data.equals(item))
+				return n;
+		}
+		
+		return null;
+	}
+	
+	public boolean Contains(T item) {
+		return Find(item) != null;
+	}
+	
+	public boolean Contains(Node<T> node) {
+		for (Node<T> n = Head(); n != null; n = n.GetNext()) {
+			if (node.equals(n))
+				return true;
+		}
+		
+		return false;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public T[] ToArray() {
 		T[] array = (T[])Array.newInstance(_class, _size);

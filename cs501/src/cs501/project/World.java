@@ -2,24 +2,20 @@ package cs501.project;
 
 import java.awt.*;
 
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
-import org.graphstream.algorithm.generator.DorogovtsevMendesGenerator;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.MultiGraph;
-import org.graphstream.graph.implementations.SingleGraph;
-import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.Viewer;
 import org.graphstream.ui.swingViewer.*;
 
-
-import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
+
 
 //http://graphstream-project.org/doc/Tutorials/Graph-Visualisation/
-
 //https://github.com/graphstream/gs-ui-swing/blob/master/src-test/org/graphstream/ui/viewer_swing/test/AllSwingTest.java
 
 
@@ -34,6 +30,8 @@ public class World extends JFrame {
 	private Viewer _Viewer = null;
 	private ViewPanel _ViewPanel = null;
 	
+	private WorldCell _Start = null;
+	private WorldCell _Goal = null;
 	
 	public World(int rows, int cols) {
 		_Rows = rows;
@@ -44,27 +42,28 @@ public class World extends JFrame {
 		generateGraph();
 		
 		_Viewer = new Viewer(_Graph, Viewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
-		_Viewer.enableAutoLayout();
+//		_Viewer.enableAutoLayout(); // uncomment this to make the graph less boxy
 		_ViewPanel = _Viewer.addDefaultView(false);
 		
 		this.setLayout(layout);
 		World.setDefaultLookAndFeelDecorated(true);
 		this.add(_ViewPanel, BorderLayout.CENTER);
 		this.setTitle("CS501 Graph Project");
-		this.setSize(1200, 800);
-		this.setLocation(200, 200);
+		this.setSize(25 * _Rows, 25 * _Columns);
+		this.setLocation(0, 0);
 		this.setResizable(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
-	
-	
-//	public Graph GetGraph() { return _Graph; }
-//	public WorldCell[][] getData() { return _Data; }
+		
+//	public WorldCell[][] Data() { return _Data; }
 	
 	public int Rows() { return _Rows; }
 	public int Columns() { return _Columns; }
 		
+	public WorldCell Start() { return _Start; }
+	public WorldCell Goal() { return _Goal; }
+	
 //	public void SetStart(int row, int column) {
 //		_Data[row][column].isStart = true;
 //	}	
@@ -74,14 +73,113 @@ public class World extends JFrame {
 	
 	public void ChangeNodeColor(int row, int column, Color color) { ChangeNodeColor(_Data[row][column].GraphNode, color); }
 	public void ChangeNodeColor(org.graphstream.graph.Node n, Color color) {
-//		n.changeAttribute("ui.style", "fill-color: #"+String.format("%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue())+";");
 		n.changeAttribute("ui.style", "fill-color: #"+String.format("%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue())+";");
+		try {
+			Thread.sleep(50);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public LinkedList<WorldCell> ComputePath(PathAlgorithm algorithm) throws Exception {
+		switch (algorithm) {
+			case AStar:
+				return ComputePath_AStar();
+			default:
+				throw new Exception();
+		}
+		
+	}
+	
+	// https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/	
+	// https://en.wikipedia.org/wiki/A*_search_algorithm#Pseudocode
+	private LinkedList<WorldCell> ComputePath_AStar() throws Exception {
+		Set<WorldCell>
+			openSet = new HashSet<WorldCell>(),
+			closedSet = new HashSet<WorldCell>();
+		int[][]
+			gScore = new int[_Rows][_Columns],
+			fScore = new int[_Rows][_Columns];
+		WorldCell[][]
+			cameFrom = new WorldCell[_Rows][_Columns];
+		
+		for (int i=0; i<_Rows; ++i) {
+			for (int j=0; j<_Columns; ++j) {
+				gScore[i][j] = Integer.MAX_VALUE;
+				fScore[i][j] = Integer.MAX_VALUE;
+				cameFrom[i][j] = null;
+			}
+		}
+		
+		openSet.add(_Start);
+		_Start.gScore = gScore[_Start.x][_Start.y] = 0;
+		_Start.fScore = fScore[_Start.x][_Start.y] = distance(_Start, _Goal);
+
+		
+		while (!openSet.isEmpty()) {
+			WorldCell current = openSet.stream()
+				.sorted(Comparator.comparingInt(WorldCell::getfScore))
+				.findFirst()
+				.get();
+			
+			ChangeNodeColor(current.GraphNode, Color.CYAN);
+		
+			// goal reached! reconstruct path and return it
+			if (current.equals(_Goal)) {
+				LinkedList<WorldCell> path = new LinkedList<>(WorldCell.class);
+				
+				path.Prepend(current);
+				ChangeNodeColor(current.GraphNode, Color.GREEN);
+				
+				for (;;) {
+					current = cameFrom[current.x][current.y];
+					if (current == null)
+						break;
+					path.Prepend(current);
+					ChangeNodeColor(current.GraphNode, Color.GREEN);
+				}
+				
+				return path;
+			}
+			
+			closedSet.add(current);
+			openSet.remove(current);
+			
+			
+			WorldCell[] neighbors = { current.North, current.South, current.East, current.West };
+			for (WorldCell neighbor : neighbors) {
+				if (neighbor != null && !closedSet.contains(neighbor)) {
+					
+					int tentative_gScore = gScore[current.x][current.y] + distance(current, neighbor);
+					if (tentative_gScore < gScore[neighbor.x][neighbor.y]) {
+						neighbor.cameFrom = cameFrom[neighbor.x][neighbor.y] = current;
+						neighbor.gScore = gScore[neighbor.x][neighbor.y] = tentative_gScore;
+						neighbor.fScore = fScore[neighbor.x][neighbor.y] = tentative_gScore + distance(neighbor, _Goal);
+//						neighbor.fScore = fScore[neighbor.x][neighbor.y] = distance(neighbor, _Goal);
+						
+						if (!closedSet.contains(neighbor)) {
+							openSet.add(neighbor);
+							ChangeNodeColor(neighbor.GraphNode, Color.YELLOW);
+						}
+					}	
+				}
+			}
+			
+			ChangeNodeColor(current.GraphNode, Color.RED);
+//			System.out.println(this.tofScoreString());
+		}
+		
+		throw new Exception("Could not compute path");
+	}
+
+	private int distance(WorldCell a, WorldCell b) {
+		return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 	}
 	
 	
-
-	
-	private void generateGraph() {
+		
+ 	private void generateGraph() {
 		Random r = new Random();
 		
 		
@@ -95,16 +193,27 @@ public class World extends JFrame {
 				_Data[i][j].label = String.format("%03d%03d", i, j);
 			}
 		}
+		
+		// the rest of the stuff!
 		for (int i=0; i<_Rows; ++i) {
 			for (int j=0; j<_Columns; ++j) {
-				if (i-1 >= 0)
+
+				if (i-1 >= 0) {
 					_Data[i][j].North = _Data[i-1][j];
-				if (i+1 < _Rows)
+					_Data[i][j].North.South = _Data[i][j];
+				}
+				if (i+1 < _Rows) {
 					_Data[i][j].South = _Data[i+1][j];
-				if (j-1 >= 0)
+					_Data[i][j].South.North = _Data[i][j];
+				}
+				if (j-1 >= 0) {
 					_Data[i][j].East = _Data[i][j-1];
-				if (j+1 < _Columns)
+					_Data[i][j].East.West = _Data[i][j];
+				}
+				if (j+1 < _Columns) {
 					_Data[i][j].West = _Data[i][j+1];
+					_Data[i][j].West.East = _Data[i][j];
+				}
 			}
 		}
 		
@@ -114,7 +223,10 @@ public class World extends JFrame {
 		_Data[_Rows-1][_Columns-1].isGoal = true;
 //		_Data[r.nextInt(_Rows/2)][r.nextInt(_Columns/2)].isStart = true;
 //		_Data[r.nextInt(_Rows/2) + (_Rows/2)][r.nextInt(_Columns/2) + (_Columns/2)].isGoal = true;
-//		
+		_Start = _Data[0][0];
+		_Goal = _Data[_Rows-1][_Columns-1]; 
+		
+		
 		
 		// remove random connections to make the path more complicated
 		for (int i=0; i<_Rows; ++i) {
@@ -124,10 +236,22 @@ public class World extends JFrame {
 				if (c.isStart || c.isGoal)
 					continue;
 				
-//				if (c.Connected() && c.North != null && c.North.Connected() && r.nextDouble() < 0.5) { c.North = null; }
-//				if (c.Connected() && c.South != null && c.South.Connected() && r.nextDouble() < 0.5) { c.South = null; }
-//				if (c.Connected() && c.East != null && c.East.Connected() && r.nextDouble() < 0.5) { c.East = null; }
-//				if (c.Connected() && c.West != null && c.West.Connected() && r.nextDouble() < 0.5) { c.West = null; }
+				if (c.Connections() >= 1 && c.North != null && c.North.Connections() > 3 && r.nextDouble() > 0.5) {
+					c.North.South = null;
+					c.North = null;
+				}
+				if (c.Connections() >= 1 && c.South != null && c.South.Connections() > 3 && r.nextDouble() > 0.5) {
+					c.South.North = null;
+					c.South = null;
+				}
+				if (c.Connections() >= 1 && c.East != null && c.East.Connections() > 3 && r.nextDouble() > 0.5) {
+					c.East.West = null;
+					c.East = null;
+				}
+				if (c.Connections() >= 1 && c.West != null && c.West.Connections() > 3 && r.nextDouble() > 0.5) {
+					c.West.East = null;
+					c.West = null;
+				}
 			}
 		}
 		
@@ -185,12 +309,27 @@ public class World extends JFrame {
 	}
 
 	public void Run() {
-		
+	
 		
 		
 	}
 	
-	
+	public String tofScoreString() {
+		String result = "";
+		
+		for (int i=0; i < _Rows; ++i) {
+			for (int j=0; j < _Columns; ++j) {
+				WorldCell cell = _Data[i][j];
+				if (cell.fScore == Integer.MAX_VALUE)
+					result += String.format("[∞∞]");
+				else
+					result += String.format("[%02d]", cell.fScore);
+			}
+			result += "\n";
+		}
+		
+		return result;
+	}
 	
 	@Override
 	public String toString() {
