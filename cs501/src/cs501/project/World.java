@@ -1,15 +1,11 @@
 package cs501.project;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.MultiGraph;
-import org.graphstream.stream.file.FileSinkDOT;
 import org.graphstream.ui.view.Viewer;
 import org.graphstream.ui.swingViewer.*;
 
@@ -22,17 +18,16 @@ import java.util.Set;
 //http://graphstream-project.org/doc/Tutorials/Graph-Visualisation/
 //https://github.com/graphstream/gs-ui-swing/blob/master/src-test/org/graphstream/ui/viewer_swing/test/AllSwingTest.java
 
-
-
 public class World extends JFrame {
 	
 	private static final long serialVersionUID = 4492601785821268444L;
+
 	private int _Rows = 0;
 	private int _Columns = 0;
+	
 	private WorldCell[][] _Data;
 	private WorldCell _Start = null;
 	private WorldCell _Goal = null;
-
 
 	
 	private Graph _Graph = null;
@@ -41,6 +36,7 @@ public class World extends JFrame {
 	
 	private int _GraphThreadDelay = 75;
 	private boolean _RenderInRealTime = true;
+	
 	
 	public World(int rows, int cols) {
 		_Rows = rows;
@@ -98,7 +94,7 @@ public class World extends JFrame {
 			case AStar:
 				return ComputePath_AStar(useHeuristic);
 			default:
-				throw new Exception("Undefined path algorithm");
+				throw new Exception("Undefined path algorithm: " + algorithm.toString());
 		}
 		
 	}
@@ -141,7 +137,6 @@ public class World extends JFrame {
 			closedSet.add(current);
 			openSet.remove(current);
 			
-			
 			WorldCell[] neighbors = { current.North, current.South, current.East, current.West };
 			for (WorldCell neighbor : neighbors) {
 				if (neighbor != null && !closedSet.contains(neighbor)) {
@@ -150,9 +145,7 @@ public class World extends JFrame {
 					if (tentative_gScore < neighbor.gScore) {
 						neighbor.cameFrom = cameFrom[neighbor.x][neighbor.y] = current;
 						neighbor.gScore = tentative_gScore;
-						
-
-						
+												
 						if (useHeuristic) {
 							neighbor.fScore = distanceGeometric(neighbor, _Goal); // faster method, not always fastest possible path
 						}
@@ -181,8 +174,7 @@ public class World extends JFrame {
 		throw new Exception("Could not compute path");
 	}
 
-	
-	
+	// doesn't perform as expected
 	private int distanceEuclidian(WorldCell a, WorldCell b) {
 		return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 	}

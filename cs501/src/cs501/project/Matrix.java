@@ -36,7 +36,8 @@ public class Matrix<T> {
 		return _data[row][col];
 	}
 	
-	
+	public int rows() { return _rows; }
+	public int columns() { return _columns; }
 	
 	
 	public static Matrix<Number> IdentityMatrix(int n) {
