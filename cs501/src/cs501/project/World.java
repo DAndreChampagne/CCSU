@@ -1,11 +1,15 @@
 package cs501.project;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.MultiGraph;
+import org.graphstream.stream.file.FileSinkDOT;
 import org.graphstream.ui.view.Viewer;
 import org.graphstream.ui.swingViewer.*;
 
@@ -25,19 +29,27 @@ public class World extends JFrame {
 	private static final long serialVersionUID = 4492601785821268444L;
 	private int _Rows = 0;
 	private int _Columns = 0;
-	private Graph _Graph = new MultiGraph("Test");
-	private WorldCell[][] _Data;	
+	private WorldCell[][] _Data;
+	private WorldCell _Start = null;
+	private WorldCell _Goal = null;
+
+
+	
+	private Graph _Graph = null;
 	private Viewer _Viewer = null;
 	private ViewPanel _ViewPanel = null;
 	
-	private WorldCell _Start = null;
-	private WorldCell _Goal = null;
+	private int _GraphThreadDelay = 75;
+	private boolean _RenderInRealTime = true;
 	
 	public World(int rows, int cols) {
 		_Rows = rows;
 		_Columns = cols;
 
 		LayoutManager layout = new BorderLayout();
+		_Graph = new MultiGraph("Test");
+		_Graph.setStrict(false);
+		_Graph.setAutoCreate(true);
 		
 		generateGraph();
 		
@@ -49,7 +61,7 @@ public class World extends JFrame {
 		World.setDefaultLookAndFeelDecorated(true);
 		this.add(_ViewPanel, BorderLayout.CENTER);
 		this.setTitle("CS501 Graph Project");
-		this.setSize(25 * _Rows, 25 * _Columns);
+		this.setSize(30 * _Rows, 30 * _Columns);
 		this.setLocation(0, 0);
 		this.setResizable(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -62,51 +74,47 @@ public class World extends JFrame {
 	public WorldCell Start() { return _Start; }
 	public WorldCell Goal() { return _Goal; }
 	
+	public void SetRenderInRealTime(boolean x) { _RenderInRealTime = x; }
+	public boolean GetRenderInRealTime() { return _RenderInRealTime; }
+	
+	public void SetGraphDelay(int x) { _GraphThreadDelay = x; }
+	public int GetGraphDelay() { return _GraphThreadDelay; }
+	
 	public void ChangeNodeColor(int row, int column, Color color) { ChangeNodeColor(_Data[row][column].GraphNode, color); }
 	public void ChangeNodeColor(org.graphstream.graph.Node n, Color color) {
-		n.changeAttribute("ui.style", "fill-color: #"+String.format("%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue())+";");
 		try {
-			Thread.sleep(50);
+			n.changeAttribute("ui.style", "fill-color: #"+String.format("%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue())+";");
+			Thread.sleep(_GraphThreadDelay); // without sleeping the thread, the graph library throws exceptions left and right
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			
+			// Do nothing else. The color should be picked up on the next repaint.
 		}
 	}
 	
 	
-	public LinkedList<WorldCell> ComputePath(PathAlgorithm algorithm) throws Exception {
+	public LinkedList<WorldCell> ComputePath(PathAlgorithm algorithm, boolean useHeuristic) throws Exception {
 		switch (algorithm) {
 			case AStar:
-				return ComputePath_AStar();
+				return ComputePath_AStar(useHeuristic);
 			default:
-				throw new Exception();
+				throw new Exception("Undefined path algorithm");
 		}
 		
 	}
 	
 	// https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/	
 	// https://en.wikipedia.org/wiki/A*_search_algorithm#Pseudocode
-	private LinkedList<WorldCell> ComputePath_AStar() throws Exception {
+	private LinkedList<WorldCell> ComputePath_AStar(boolean useHeuristic) throws Exception {
 		Set<WorldCell>
 			openSet = new HashSet<WorldCell>(),
 			closedSet = new HashSet<WorldCell>();
-		int[][]
-			gScore = new int[_Rows][_Columns],
-			fScore = new int[_Rows][_Columns];
 		WorldCell[][]
 			cameFrom = new WorldCell[_Rows][_Columns];
 		
-		for (int i=0; i<_Rows; ++i) {
-			for (int j=0; j<_Columns; ++j) {
-				gScore[i][j] = Integer.MAX_VALUE;
-				fScore[i][j] = Integer.MAX_VALUE;
-				cameFrom[i][j] = null;
-			}
-		}
-		
 		openSet.add(_Start);
-		_Start.gScore = gScore[_Start.x][_Start.y] = 0;
-		_Start.fScore = fScore[_Start.x][_Start.y] = distance(_Start, _Goal);
+		_Start.gScore = 0;
+		_Start.fScore = distanceGeometric(_Start, _Goal);
 
 		
 		while (!openSet.isEmpty()) {
@@ -115,24 +123,19 @@ public class World extends JFrame {
 				.findFirst()
 				.get();
 			
-			ChangeNodeColor(current.GraphNode, Color.CYAN);
+			if (_RenderInRealTime)
+				ChangeNodeColor(current.GraphNode, Color.CYAN); // current node
 		
 			// goal reached! reconstruct path and return it
 			if (current.equals(_Goal)) {
 				LinkedList<WorldCell> path = new LinkedList<>(WorldCell.class);
 				
-				path.Prepend(current);
-				ChangeNodeColor(current.GraphNode, Color.GREEN);
-				
-				for (;;) {
-					current = cameFrom[current.x][current.y];
-					if (current == null)
-						break;
+				for (; current != null; current = cameFrom[current.x][current.y]) {
 					path.Prepend(current);
 					ChangeNodeColor(current.GraphNode, Color.GREEN);
 				}
 				
-				return path;
+				return path;				
 			}
 			
 			closedSet.add(current);
@@ -142,35 +145,51 @@ public class World extends JFrame {
 			WorldCell[] neighbors = { current.North, current.South, current.East, current.West };
 			for (WorldCell neighbor : neighbors) {
 				if (neighbor != null && !closedSet.contains(neighbor)) {
-					
-					int tentative_gScore = gScore[current.x][current.y] + distance(current, neighbor);
-					if (tentative_gScore < gScore[neighbor.x][neighbor.y]) {
+
+					int tentative_gScore = current.gScore + distanceGeometric(current, neighbor);
+					if (tentative_gScore < neighbor.gScore) {
 						neighbor.cameFrom = cameFrom[neighbor.x][neighbor.y] = current;
-						neighbor.gScore = gScore[neighbor.x][neighbor.y] = tentative_gScore;
+						neighbor.gScore = tentative_gScore;
 						
-						// choose your own adventure
-						neighbor.fScore = fScore[neighbor.x][neighbor.y] = tentative_gScore + distance(neighbor, _Goal);
-//						neighbor.fScore = fScore[neighbor.x][neighbor.y] = distance(neighbor, _Goal);
+
+						
+						if (useHeuristic) {
+							neighbor.fScore = distanceGeometric(neighbor, _Goal); // faster method, not always fastest possible path
+						}
+						else {
+							// So this is the fScore method given by the A* algorithm. However, during
+							// my testing, I found that it produced a more meandering search. Calculating
+							// the fScore based solely on the distance was more direct, but I decided to
+							// leave it so that the algorithm will act as more of a starting point.
+							neighbor.fScore = tentative_gScore + distanceGeometric(neighbor, _Goal); // much slower, fastest path
+						}
 						
 						if (!closedSet.contains(neighbor)) {
 							openSet.add(neighbor);
-							ChangeNodeColor(neighbor.GraphNode, Color.YELLOW);
+							
+							if (_RenderInRealTime)
+								ChangeNodeColor(neighbor.GraphNode, Color.YELLOW); // node added to open list
 						}
-					}	
+					}
 				}
 			}
 			
-			ChangeNodeColor(current.GraphNode, Color.RED);
-//			System.out.println(this.tofScoreString());
+			if (_RenderInRealTime)
+				ChangeNodeColor(current.GraphNode, Color.RED); // done processing node
 		}
 		
 		throw new Exception("Could not compute path");
 	}
 
-	private int distance(WorldCell a, WorldCell b) {
+	
+	
+	private int distanceEuclidian(WorldCell a, WorldCell b) {
 		return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 	}
 	
+	private int distanceGeometric(WorldCell a, WorldCell b) {
+		return (int)Math.sqrt(Math.pow(a.x-b.x, 2) + Math.pow(a.y-b.y, 2));
+	}
 	
 		
  	private void generateGraph() {

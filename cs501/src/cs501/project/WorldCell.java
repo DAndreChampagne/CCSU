@@ -24,7 +24,11 @@ public class WorldCell {
 	
 	public boolean Connected() { return North != null || South != null || East != null || West != null; }
 	public int Connections() {
-		return (North == null ? 0 : 1) + (South == null ? 0 : 1) + (East == null ? 0 : 1) + (West == null ? 0 : 1);
+		return
+				(North == null ? 0 : 1) +
+				(South == null ? 0 : 1) + 
+				(East == null ? 0 : 1) + 
+				(West == null ? 0 : 1);
 	}
 	
 	

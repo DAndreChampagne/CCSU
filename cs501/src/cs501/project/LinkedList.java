@@ -101,8 +101,8 @@ public class LinkedList<T> {
 		_size++;		
 		return this;
 	}
-	
-	public LinkedList<T> Remove(Node<T> n) throws NullPointerException {
+		
+ 	public LinkedList<T> Remove(Node<T> n) throws NullPointerException {
 		if (n == null)
 			throw new NullPointerException("n cannot be null");
 		
