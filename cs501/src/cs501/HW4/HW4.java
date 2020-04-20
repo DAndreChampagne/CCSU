@@ -89,21 +89,70 @@ public class HW4 {
     public static class HeapSort implements ISortingAlgorithm {
     	public String Name() { return "Heap Sort"; }
     	
-    	private int[] upheap(int[] data, int j) {
-    		int i = j;
-    		int key = data[i];
-    		int k = i/2;
-    		
-    		while (k >= 1 && data[k] < key) {
-    			data[i] = data[k];
-    			i = k;
-    			k = k/2;
-    		}
-    		
-    		data[i] = key;
-    		
-    		return data;
-    	}
+//    	private int[] upheap(int[] data, int j) {
+//    		int i = j;
+//    		int key = data[i];
+//    		int k = i/2;
+//    		
+//    		while (k >= 1 && data[k] < key) {
+//    			data[i] = data[k];
+//    			i = k;
+//    			k = k/2;
+//    		}
+//    		
+//    		data[i] = key;
+//    		
+//    		return data;
+//    	}
+//    	
+//    	private int[] downheap(int[] data, int size, int j) {
+//    		boolean foundSpot = false;
+//    		int i = j;
+//    		int key = data[i];
+//    		int k = 2 * i;
+//    		int n = size;
+//    		
+//    		while (k <= n && !foundSpot) {
+//    			if (k < n && !(data[k+1] < data[k]))
+//    				++k;
+//    			if (!(data[k] < key)) {
+//    				data[i] = data[k];
+//    				i = k;
+//    				k = 2*i;
+//    			}
+//    			else {
+//    				foundSpot = true;
+//    			}
+//    		}
+//    		
+//    		data[i] = key;
+//    		
+//    		return data;
+//    	}
+//    	
+//    	private boolean insertItem(int[] data, int size, int item) {
+//    		if (data.length == size)
+//    			return false;
+//    		
+//    		++size;
+//    		data[size] = item;
+//    		
+//    		upheap(data, size);
+//    		
+//    		return true;
+//    	}
+//    	
+//    	private boolean removeItem(int[] data, int size) {
+//    		if (size == 0)
+//    			return false;
+//    		
+//    		int item = data[1];
+//    		--size;
+//    		downheap(data, size, 1);
+//    		
+//    		return true;
+//    	}
+    	
     	
     	public SortingAlgorithmResults Sort(int[] data) {
     		int[] x = data.clone();
@@ -167,6 +216,9 @@ public class HW4 {
     		System.out.println();
         }
 
+		
+		
+		
 		
 		// ************************************************************************************************
 		
