@@ -101,6 +101,7 @@ public class World extends JFrame {
 	
 	// https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/	
 	// https://en.wikipedia.org/wiki/A*_search_algorithm#Pseudocode
+	
 	private LinkedList<WorldCell> ComputePath_AStar(boolean useHeuristic) throws Exception {
 		Set<WorldCell>
 			openSet = new HashSet<WorldCell>(),
