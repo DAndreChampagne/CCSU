@@ -6,21 +6,67 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
 
+
 public class ProjectMain {
+	
+	/*********************************************************
+	 * 
+	 * Program variables
+	 * 
+	 * Modify these properties to change the parameters of the
+	 * application.
+	 *
+	 *********************************************************/
+	
+	public static String _FilePath = "/Users/dan/Desktop/graph/"; // used for image capture of completed graph/path
+	public static int _Rows = 30;
+	public static int _Columns = 30;
+	public static boolean _UseHeuristic = false;
+	
+	
+	/*********************************************************
+	 * 
+	 *********************************************************/
 	
 	public static void main(String[] args) {
 		
-		for (int i=20; i<25; ++i) {
-			World w = new World(30,30);
+		String csv = "";
+		
+		for (int i=100; i<105; ++i) {
+			World w = new World(_Rows, _Columns);
+			w.SetRenderInRealTime(false);
+			//System.out.println("setup results: " + w.GetSetupResults().toString());
 	
+			
+			
 			try {
 				Thread.sleep(2000);
-				LinkedList<WorldCell> path = w.ComputePath(PathAlgorithm.AStar, false);
+				LinkedList<WorldCell> path = w.ComputePath(PathAlgorithm.AStar, _UseHeuristic);
+//				System.out.println("path.Size = " + path.Size() + ", path results: " + w.GetLastPathResults().toString());
+				
+				String str = Arrays.stream(new int[] { 
+						w.Rows(), 
+						w.Columns(), 
+						(w.Rows()*w.Columns()),
+						w.Edges(),
+						path.Size(),
+						w.GetLastPathResults().comparisons,
+						w.GetLastPathResults().exchanges,
+						w.GetLastPathResults().assignments,
+						w.GetLastPathResults().loops
+				})
+						.mapToObj(String::valueOf)
+						.collect(Collectors.joining(","));
+				
+				
+				csv += str + "\n";
 	
-				System.out.println("Path computed!");
+				System.out.println(str);
 	
 				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss");    
 	
@@ -29,7 +75,7 @@ public class ProjectMain {
 				Graphics2D g = img.createGraphics();
 				content.paint(g);
 				
-				File f = new File("/Users/dan/Desktop/graph/graph " + i + ", " + dtf.format(LocalDateTime.now()) + ".png");
+				File f = new File(_FilePath + "graph " + i + ", " + dtf.format(LocalDateTime.now()) + ".png");
 				ImageIO.write(img, "png", f);
 				
 				g.dispose();
