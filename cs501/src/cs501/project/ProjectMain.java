@@ -23,9 +23,18 @@ public class ProjectMain {
 	 *
 	 *********************************************************/
 	
-	public static String _FilePath = "/Users/dan/Desktop/graph/"; // used for image capture of completed graph/path
+	
+	// used for image capture of completed graph/path. needs to end in a slash.
+	public static String _FilePath = "/Users/dan/Desktop/graph/"; 
+	
+	// number of rows in the graph
 	public static int _Rows = 30;
+	
+	// number of columns in the graph
 	public static int _Columns = 30;
+	
+	// false = slower run
+	// true = heuristic function as designed
 	public static boolean _UseHeuristic = false;
 	
 	
