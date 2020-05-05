@@ -2,21 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="910f7a52-17d2-4d6b-a53a-f22e03afd920" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/cs501/src/cs501/project/PriorityQueue.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cs501/src/cs501/project/diagram.ucls" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cs506/src/cs506/HW4/mystery.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cs501/bin/cs501/project/Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/cs501/bin/cs501/project/Node.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cs501/bin/cs501/project/ProjectMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/cs501/bin/cs501/project/ProjectMain.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cs501/bin/cs501/project/World.class" beforeDir="false" afterPath="$PROJECT_DIR$/cs501/bin/cs501/project/World.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cs501/src/cs501/project/LinkedList.java" beforeDir="false" afterPath="$PROJECT_DIR$/cs501/src/cs501/project/LinkedList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cs501/src/cs501/project/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/cs501/src/cs501/project/Node.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cs501/src/cs501/project/PathAlgorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/cs501/src/cs501/project/PathAlgorithm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cs501/src/cs501/project/ProjectMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/cs501/src/cs501/project/ProjectMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cs501/src/cs501/project/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/cs501/src/cs501/project/World.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cs501/src/cs501/project/xxAStar.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cs501/src/cs501/xnotbeingused/Course.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cs501/src/cs501/xnotbeingused/Course_Tests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cs501/bin/cs501/HW4/HW4$HeapSort.class" beforeDir="false" afterPath="$PROJECT_DIR$/cs501/bin/cs501/HW4/HW4$HeapSort.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cs501/bin/cs501/HW4/HW4$ISortingAlgorithm.class" beforeDir="false" afterPath="$PROJECT_DIR$/cs501/bin/cs501/HW4/HW4$ISortingAlgorithm.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cs501/bin/cs501/HW4/HW4.class" beforeDir="false" afterPath="$PROJECT_DIR$/cs501/bin/cs501/HW4/HW4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cs501/src/cs501/HW4/HW4.java" beforeDir="false" afterPath="$PROJECT_DIR$/cs501/src/cs501/HW4/HW4.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,9 +70,9 @@
       <screen x="0" y="23" width="1440" height="852" />
     </state>
     <state x="569" y="345" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.23.1440.852@0.23.1440.852" timestamp="1581631213669" />
-    <state x="397" y="281" key="com.intellij.ide.util.TipDialog" timestamp="1586353192902">
+    <state x="397" y="281" key="com.intellij.ide.util.TipDialog" timestamp="1588614948518">
       <screen x="0" y="23" width="1440" height="852" />
     </state>
-    <state x="397" y="281" key="com.intellij.ide.util.TipDialog/0.23.1440.852@0.23.1440.852" timestamp="1586353192902" />
+    <state x="397" y="281" key="com.intellij.ide.util.TipDialog/0.23.1440.852@0.23.1440.852" timestamp="1588614948518" />
   </component>
 </project>

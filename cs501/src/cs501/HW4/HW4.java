@@ -12,7 +12,7 @@ public class HW4 {
 	// allows for easier insertion of algorithms in the future
 	public static interface ISortingAlgorithm {
 		public String Name();
-		public SortingAlgorithmResults Sort(int[] data);
+		public SortingAlgorithmResults Sort(int[] data) throws Exception;
 	}
 	
 	
@@ -89,74 +89,91 @@ public class HW4 {
     public static class HeapSort implements ISortingAlgorithm {
     	public String Name() { return "Heap Sort"; }
     	
-//    	private int[] upheap(int[] data, int j) {
-//    		int i = j;
-//    		int key = data[i];
-//    		int k = i/2;
-//    		
-//    		while (k >= 1 && data[k] < key) {
-//    			data[i] = data[k];
-//    			i = k;
-//    			k = k/2;
-//    		}
-//    		
-//    		data[i] = key;
-//    		
-//    		return data;
-//    	}
-//    	
-//    	private int[] downheap(int[] data, int size, int j) {
-//    		boolean foundSpot = false;
-//    		int i = j;
-//    		int key = data[i];
-//    		int k = 2 * i;
-//    		int n = size;
-//    		
-//    		while (k <= n && !foundSpot) {
-//    			if (k < n && !(data[k+1] < data[k]))
-//    				++k;
-//    			if (!(data[k] < key)) {
-//    				data[i] = data[k];
-//    				i = k;
-//    				k = 2*i;
-//    			}
-//    			else {
-//    				foundSpot = true;
-//    			}
-//    		}
-//    		
-//    		data[i] = key;
-//    		
-//    		return data;
-//    	}
-//    	
-//    	private boolean insertItem(int[] data, int size, int item) {
-//    		if (data.length == size)
-//    			return false;
-//    		
-//    		++size;
-//    		data[size] = item;
-//    		
-//    		upheap(data, size);
-//    		
-//    		return true;
-//    	}
-//    	
-//    	private boolean removeItem(int[] data, int size) {
-//    		if (size == 0)
-//    			return false;
-//    		
-//    		int item = data[1];
-//    		--size;
-//    		downheap(data, size, 1);
-//    		
-//    		return true;
-//    	}
+    	private int[] upheap(int[] data, int j) {
+    		int i = j;
+    		int key = data[i];
+    		int k = i/2;
+    		
+    		while (k >= 1 && data[k] > key) {
+    			data[i] = data[k];
+    			i = k;
+    			k = i/2;
+    		}
+    		
+    		data[i] = key;
+    		
+    		return data;
+    	}
+    	
+    	private int[] downheap(int[] data, int size, int j) {
+    		boolean foundSpot = false;
+    		int i = j;
+    		int key = data[i];
+    		int k = 2 * i;
+    		
+    		while (k <= size && !foundSpot) {
+    			if (k < size && !(data[k+1] > data[k])) {
+    				++k;
+    			}
+    			if (!(data[k] > key)) {
+    				data[i] = data[k];
+    				i = k;
+    				k = 2*i;
+    			}
+    			else {
+    				foundSpot = true;
+    			}
+    		}
+    		
+    		data[i] = key;
+    		
+    		return data;
+    	}
+    	
+    	private boolean insertItem(int[] data, Integer size, int item) {
+    		if (data.length == size)
+    			return false;
+    		
+    		data[size] = item;
+    		upheap(data, size);
+    		++size;
+    		
+    		return true;
+    	}
+    	
+    	private int removeItem(int[] data, Integer size) throws Exception {
+    		if (size == 0)
+    			throw new Exception();
+    		
+    		int item = data[0];
+    		data[0] = data[size-1];
+    		downheap(data, size, 0);
+    		--size;
+    		
+    		return item;
+    	}
     	
     	
-    	public SortingAlgorithmResults Sort(int[] data) {
-    		int[] x = data.clone();
+    	public SortingAlgorithmResults Sort(int[] data) throws Exception {
     		SortingAlgorithmResults results = new SortingAlgorithmResults();
+    		
+    		int[] heap = new int[data.length];
+    		int size = 0;
+    		
+    		
+    		for (int item : data) {
+    			this.insertItem(heap, size, item);
+    			++size;
+    		}
+    		
+    		
+    		results.sortedData = new int[size];
+    		int i=0;
+    		while (size != 0) {
+    			int item = removeItem(heap, size);
+    			--size;
+    			results.sortedData[i++] = item;
+    		}
     		
     		
     		
