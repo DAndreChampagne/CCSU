@@ -55,6 +55,7 @@ public class LinkedList<T> {
 	public java.util.Iterator Iterator() { return new LinkedListIterator().iterator(); }
 	
 	// gets node at index
+	
 	public T Get(int index) throws IllegalArgumentException {
 		if (index < 0 || index >= Size())
 			throw new IllegalArgumentException("invalid index: 0 <= " + index + " < " + Size());
