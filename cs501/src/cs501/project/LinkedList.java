@@ -2,7 +2,9 @@ package cs501.project;
 
 import java.lang.reflect.Array;
 
-// Generic Linked List class
+// Generic Linked List class.
+// This leaves much to be desired, but it works for my purposes.
+// I will likely improve and refine the code in the future.
 public class LinkedList<T> {
 	
 	// iterator class
@@ -162,7 +164,7 @@ public class LinkedList<T> {
 	
 	public boolean Contains(Node<T> node) {
 		for (Node<T> n = Head(); n != null; n = n.GetNext()) {
-			if (node.equals(n))
+			if (n.equals(node))
 				return true;
 		}
 		

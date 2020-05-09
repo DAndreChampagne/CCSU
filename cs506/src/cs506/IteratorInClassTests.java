@@ -92,18 +92,18 @@ class IteratorInClassTests {
 		assertFalse(list.contains("This"));
 	}
 	
-	@Test
-	void Remove_FFTT() {
-		
-		while (iterator.hasNext()) {
-			iterator.next();
-		}
-		
-		assertThrows(UnsupportedOperationException.class, () -> {
-			iterator.remove(); 
-		});
-		
-	}
+//	@Test
+//	void Remove_FFTT() {
+//		
+//		while (iterator.hasNext()) {
+//			iterator.next();
+//		}
+//		
+//		assertThrows(UnsupportedOperationException.class, () -> {
+//			iterator.remove(); 
+//		});
+//		
+//	}
 	
 	@Test
 	void Remove_TFTT() {
