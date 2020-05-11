@@ -37,6 +37,8 @@ public class ProjectMain {
 	// true = heuristic function as designed
 	public static boolean _UseHeuristic = false;
 	
+	// turn this off to only show the shorted path
+	public static boolean _RenderInRealTime = true;
 	
 	/*********************************************************
 	 * 
@@ -48,7 +50,7 @@ public class ProjectMain {
 		
 		for (int i=100; i<105; ++i) {
 			World w = new World(_Rows, _Columns);
-			w.SetRenderInRealTime(false);
+			w.SetRenderInRealTime(_RenderInRealTime);
 			//System.out.println("setup results: " + w.GetSetupResults().toString());
 	
 			

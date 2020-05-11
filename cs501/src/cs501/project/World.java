@@ -177,7 +177,7 @@ public class World extends JFrame {
 						}
 						
 						_PathResults.comparisons++;
-						if (!closedSet.contains(neighbor)) {
+						if (!openSet.contains(neighbor)) {
 							_PathResults.assignments++;
 							
 							openSet.add(neighbor);

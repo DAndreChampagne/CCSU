@@ -14,11 +14,11 @@ class T1_SyntaxTests {
 	
 	
 	//original:   ["0"-"9"]((["0"-"9","_"])*["0"-"9"])?
-	private final String DECIMAL_LITERAL = "[0-9](([0-9,_])*[0-9])?";
+	private final String DECIMAL_LITERAL = "[0-9](([0-9_])*[0-9])?";
 
 	
 	//original:   ["e","E"] (["+","-"])? (<DECIMAL_LITERAL>)+
-	private final String DECIMAL_EXPONENT = "[e,E]([+,-])?(" + DECIMAL_LITERAL + ")+";
+	private final String DECIMAL_EXPONENT = "[e,E]([+-])?(" + DECIMAL_LITERAL + ")+";
 	
 	
 	//original:   <DECIMAL_LITERAL> "." (<DECIMAL_LITERAL>)? (<DECIMAL_EXPONENT>)? (["f","F","d","D"])?
@@ -33,7 +33,7 @@ class T1_SyntaxTests {
 
 	
 	@ParameterizedTest(name = "Testing literal \"{0}\"")
-	@ValueSource(strings = { "1", "20", "300", "4,00" })
+	@ValueSource(strings = { "1", "20", "300", "4000" })
 	void DecimalLiteralTests(String s) {
 		Pattern p = Pattern.compile(DECIMAL_LITERAL);
 		Matcher m = p.matcher(s);
@@ -45,7 +45,7 @@ class T1_SyntaxTests {
 	}
 	
 	@ParameterizedTest(name = "Testing literal \"{0}\"")
-	@ValueSource(strings = { "e+20", "e-1", "E+28", "E-1,102" })
+	@ValueSource(strings = { "e+20", "e-1", "E+28", "E-1102" })
 	void DecimalExponentTests(String s) {
 		Pattern p = Pattern.compile(DECIMAL_EXPONENT);
 		Matcher m = p.matcher(s);

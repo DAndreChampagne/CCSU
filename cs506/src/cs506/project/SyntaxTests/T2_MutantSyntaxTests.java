@@ -18,7 +18,7 @@ class T2_MutantSyntaxTests {
 
 	
 	//original:   ["e","E"] (["+","-"])? (<DECIMAL_LITERAL>)+
-	private final String DECIMAL_EXPONENT = "[e,E]([+,-])*(" + DECIMAL_LITERAL + ")+"; //private final String DECIMAL_EXPONENT = "[e,E]([+,-])?(" + DECIMAL_LITERAL + ")+";
+	private final String DECIMAL_EXPONENT = "[eE]([+-])*(" + DECIMAL_LITERAL + ")+"; //private final String DECIMAL_EXPONENT = "[e,E]([+-])?(" + DECIMAL_LITERAL + ")+";
 	
 	
 	//original:   <DECIMAL_LITERAL> "." (<DECIMAL_LITERAL>)? (<DECIMAL_EXPONENT>)? (["f","F","d","D"])?
